@@ -1,3 +1,6 @@
+photo_2026-02-26_15-24-47.jpg
+photo_2026-02-26_15-24-48.jpg
+
 glcdfont.c  поместить в папку lib\Adafruit-GFX-Library-master
 
 Зависимости:
