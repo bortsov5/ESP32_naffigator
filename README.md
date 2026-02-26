@@ -1,5 +1,5 @@
-photo_2026-02-26_15-24-47.jpg
-photo_2026-02-26_15-24-48.jpg
+<img src="photo_2026-02-26_15-24-47.jpg" alt="" width="600">
+<img src="photo_2026-02-26_15-24-48.jpg" alt="" width="600">
 
 glcdfont.c  поместить в папку lib\Adafruit-GFX-Library-master
 
