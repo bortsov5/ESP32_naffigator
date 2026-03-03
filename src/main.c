@@ -76,6 +76,7 @@ bool webradio = false;
 int volume_keuze = 5;
 float offset = 0;
 bool info = true;
+bool isdark = true;
 
 typedef struct
 {
@@ -279,8 +280,12 @@ void showmsgXY(int x, int y, int sz, const GFXfont *f, const char *msg)
 
 void draw_screen()
 {
-
-  tft.fillScreen(ST77XX_BLACK);
+  if (isdark) {
+    tft.fillScreen(ST77XX_BLACK);  
+  } else {
+    tft.fillScreen(ST77XX_WHITE);
+  }
+  
   tft.setTextSize(10);
 
   // tft.setCursor(90, 20);
@@ -301,23 +306,40 @@ void draw_screen()
   // showmsgXY(5, 120, 2, NULL, utf8rus(nextRd).c_str());
 
   tft.setTextSize(4);
-  tft.setTextColor(ST77XX_GREEN);
+  if (isdark) {
+    tft.setTextColor(ST77XX_GREEN);
+  } else {
+    tft.setTextColor(ST77XX_BLACK);
+  }
   tft.setCursor(15, 80);
   String cleandistToNext = distToNext.substring(0, distToNext.indexOf(" "));
   tft.println(utf8rus(cleandistToNext)); // расстояние до поворота
 
   tft.setTextSize(2);
-  tft.setTextColor(ST77XX_WHITE); 
+  if (isdark) {
+    tft.setTextColor(ST77XX_WHITE); 
+  } else {
+    tft.setTextColor(ST77XX_BLACK);
+  }
+  
   tft.setCursor(5, 180); // Сколько ехать растояние
   tft.println(utf8rus(totalDist));
 
   tft.setTextSize(2);
-  tft.setTextColor(ST77XX_GREEN);
+  if (isdark) {
+     tft.setTextColor(ST77XX_GREEN);
+  } else {
+    tft.setTextColor(ST77XX_BLACK);
+  }
   tft.setCursor(5, 210);
   tft.println(utf8rus(ete)); // Сколько ехать время
 
   tft.setTextSize(2);
-  tft.setTextColor(ST77XX_WHITE);
+  if (isdark) {
+    tft.setTextColor(ST77XX_WHITE);
+  } else {
+    tft.setTextColor(ST77XX_BLACK);
+  }
   tft.setCursor(165, 210);
   String etaWithoutPrefix = eta.substring(eta.indexOf(":") + 2);
   tft.println(utf8rus(etaWithoutPrefix)); // Время прибытия
@@ -525,6 +547,7 @@ void onCharacteristicWrite(const String &uuid, uint8_t *data, size_t length)
     Pref::brightness = kv.getOrDefault("brightness", "100").toInt();
     Pref::speedLimit = kv.getOrDefault("speedLimit", "60").toInt();
 
+    isdark = !Pref::lightTheme;
     //	tft.setBrightness(Pref::brightness);
     //!	Pref::lightTheme ? ThemeControl::light() : ThemeControl::dark();
 
@@ -825,7 +848,11 @@ void loop()
 
     if (!deviceConnected)
     {
-      tft.fillScreen(ST77XX_BLACK);
+      if (isdark) { 
+        tft.fillScreen(ST77XX_BLACK); } 
+      else {
+        tft.fillScreen(ST77XX_WHITE);
+      }
       showmsgXY(22, 75, 1, &Dialog_plain_24, "Naffigator v1.0");
       displaySplash(88, 108);
 
@@ -833,7 +860,11 @@ void loop()
       clearNavigationData();
     } else
     {
-      tft.fillScreen(ST77XX_BLACK);
+      if (isdark) { 
+        tft.fillScreen(ST77XX_BLACK); } 
+      else {
+        tft.fillScreen(ST77XX_WHITE);
+      }
     }
   }
 }
